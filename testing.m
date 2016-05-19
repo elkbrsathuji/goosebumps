@@ -21,18 +21,25 @@
 % I'm assuming that everytime a car tern right people can walk! Hence there 
 % are only 13 optimal options.
 
-forTest = zeros(1,size(options,3));
+forTest_poly = zeros(1,size(options,3));
+forTest_expy = zeros(1,size(options,3));
 % going over all options and choosing the maximal score
-final_score = -40000*ones(1,2);
+final_score = -40000*ones(1,4);
 for j = 1:size(options,3)
-    temp = calc_score(options(:,:,j), my_numOfCars);
-    forTest(j) = temp;
-    if (temp > final_score(1))
-        final_score(1) = temp;
+    poly = calc_score(options(:,:,j), my_numOfCars, true);
+    expy = calc_score(options(:,:,j), my_numOfCars, false);
+    forTest_poly(j) = ploy;
+    forTest_expy(j) = expy;
+    if (poly > final_score(1))
+        final_score(1) = poly;
         final_score(2) = j;
+    end
+    if (expy > final_score(3))
+        final_score(3) = expy;
+        final_score(4) = j;
     end
 end
 % when testing I want to see the score for each call
-figure; plot(1:13, forTest)
+figure; plot(1:13, forTest_expy, 1:13, forTest_poly)
 load('time');
-title(strcat('score of each option for time: ', time))
+title(strcat('score of each option for time: ', int2str(time)))
