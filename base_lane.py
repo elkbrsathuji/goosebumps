@@ -32,6 +32,12 @@ class base_lane(object):
 			push(cars)
 		return
 
+	def generate(self, time):
+		cars = self._generator.generate_car(time)
+		if len(cars):
+			push(cars)
+		return
+
 	def _pop(self)
 		self._cars.pop(0)
 		return
