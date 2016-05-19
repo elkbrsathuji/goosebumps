@@ -9,9 +9,9 @@ function [score_green_exp, score_green_order] = ...
 % sigma (4*4 array), beta are scalars to learn
 Ind = find(Traffic_time); % will use it to zero out green traffic lights
 sigma(Ind) = 0;
-Score_green_exp = sigma.*exp(beta*Traffic_time);
-Score_green_order = sigma.*(Traffic_time.^p);
+temp_green_exp = sigma.*exp(beta*Traffic_time);
+temp_green_order = sigma.*(Traffic_time.^p);
 
-final_green_exp = sum(Option.*score_green_exp);
-final_green_order = sum(Option.*score_green_order);
+score_green_exp = sum(Option.*temp_green_exp);
+score_green_order = sum(Option.*temp_green_order);
 end

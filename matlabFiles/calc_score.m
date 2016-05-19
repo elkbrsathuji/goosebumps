@@ -25,5 +25,6 @@ p_g = 2;
     calc_score_for_red(Traffic_time_r, Option, beta_r, sigma_r, p_r);
 [score_green_exp, score_green_order] = ...
     calc_score_for_green(Traffic_time_g, Option, beta_g, sigma_g, p_g);
+
 end
 
