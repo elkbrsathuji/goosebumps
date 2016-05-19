@@ -4,12 +4,12 @@ import base_car.base_car
 
 class base_lane(object):
 
-	def __init__(self, generator = None):
+	def __init__(self, prob = 0.5, generator = None):
 		self._cars = list()
 		self._avg = 0
 		self._sum_waiting = 0
 		if not generator:
-			self._generator = base_generator()
+			self._generator = base_generator(prob)
 		else:
 			self._generator = generator
 
@@ -62,4 +62,8 @@ class base_lane(object):
 		self._time_update(green)
 		self._generate(time)
 		return car_out
+
+		def export(self,time):
+			cars_list = [(i,i.get_time_in_j(time)) for i in self._cars]
+			return cars_list
 
