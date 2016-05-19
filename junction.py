@@ -72,7 +72,6 @@ class junction(object):
             i=element[0]
             j=element[1]
             stats[i][j]=self._get_stats_from_lane(i,j,time)
-        #print stats[i][j]
             #print stats[i][j][1:4]
         return stats
 
