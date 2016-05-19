@@ -1,6 +1,6 @@
 import numpy as np
 from junction import junction as base_junction
-#import matlab.engine
+import matlab.engine
 
 import time
 
@@ -8,16 +8,24 @@ import time
 def simulate(adj_mat, T = 100):
     junction = base_junction(adj_mat)
     oracle = None
-    TL = np.zeros((4,4))
-    TL = TL.tolist()
+    tf = np.zeros((4,4))
+    tf = tf.tolist()
     for t in range(T):
-        junction.tick(t,TL)
+    	
+        junction.tick(t,tf)
         stats = junction.get_stats(t)
+
         if stats==None:
             stats=[[0]*4]*4
+        for i in range(4):
+        	for j in range(4):
+        		if stats[i][j]==None:
+        			stats[i][j]=[0]
+        print "stats",stats	
+        tf = eng.yahav_main(stats)
         print "t=",t
-        print stats
-        #tf = eng.yahav_main(stats[:][0])
+       
+        
 		#print stats[0][1][1:3]
     return
 
@@ -26,7 +34,7 @@ if __name__ == "__main__":
 	
     st = time.time()
 
-    #eng = matlab.engine.start_matlab()
+    eng = matlab.engine.start_matlab()
     #end = time.time()
     #print "tf", end-st
 

@@ -11,13 +11,13 @@ class base_generator(object):
 
     def generate_car(self,time):
         x = np.random.random_sample()
-        print x,self._prob
+        #print x,self._prob
         cars_list = []
         if x<=self._prob:
             car = base_car(time)
             cars_list.append(car)
-        print "gen called"
-        print cars_list
+        #print "gen called"
+        #print cars_list
         return cars_list
 
 

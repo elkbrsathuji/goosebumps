@@ -37,13 +37,16 @@ class junction(object):
         return out_car_lanes
 
     def get_stats(self,time):
-         stats = [[None for _ in range(4)] for _ in range(4)]
-         for element in self._indices:
+        stats = [[None for _ in range(4)] for _ in range(4)]
+        for element in self._indices:
             i=element[0]
             j=element[1]
             stats[i][j]=self._get_stats_from_lane(i,j,time)
-            print stats[i][j]
+            #print "stats[i][j]=",stats[i][j]
+            #if stats[i][j]==None:
+            #    stats[i][j]=[0]
             #print stats[i][j][1:4]
+        return stats
 
     """
     This function returns 4 elemnts which are a list of cars and their current waiting time
@@ -53,7 +56,7 @@ class junction(object):
     """
     def _get_stats_from_lane(self,i,j,time):
         cars = self._lanes[i][j].export(time)
-        print "cars are",cars
+        #print "cars are",cars
         #avg = self._lanes[i][j].get_avg()
         #sum = self._lanes[i][j].get_sum()
         #num_of_cars = self._lanes[i][j].num_cars()
