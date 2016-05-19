@@ -1,6 +1,6 @@
 import base_generator.base_generator
 import gause_generator.gauss_generator
-import 
+import base_car.base_car
 
 class base_lane(object):
 
@@ -38,16 +38,16 @@ class base_lane(object):
 			push(cars)
 		return
 
-	def _pop(self)
-		self._cars.pop(0)
-		return
+	def _pop(self, time)
+		self._cars[0].set_time_out(time)
+		car = self._cars.pop(0)
+		return car
 
 	def _push(self,cars):
 		self._cars.extend(cars)
 		return
 
 	def _time_update(self,green):
-		#TODO what happens if car leaves the lane?
 		count = 0
 		for c in self._cars:
 			count += c.get_time_in_j
@@ -56,9 +56,10 @@ class base_lane(object):
 		return 
 
 	def tick(self, time, green = False):
-		self._generate(time)
-		self._time_update(green)
+		car_out = None
 		if green:
-			self._pop()
-		return
+			car_out = self._pop(time)
+		self._time_update(green)
+		self._generate(time)
+		return car_out
 
