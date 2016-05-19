@@ -1,6 +1,7 @@
 import numpy as np
 from junction import junction as base_junction
 import matlab.engine
+import matplotlib.pyplot as plt
 
 import time
 
@@ -35,6 +36,17 @@ def simulate(adj_mat, T = 100):
         scores.append(junction.get_statistics())
         
 		#print stats[0][1][1:3]
+    
+    
+    #meanTime,variance,median, maxTime, amount
+    line1, = plt.plot(range(BIBIBIBI),[c[0] for c in scores],label ='Mean')
+    line2, = plt.plot(range(BIBIBIBI),[c[1] for c in scores],label ='Variance')
+    line3, = plt.plot(range(BIBIBIBI),[c[2] for c in scores],label ='Median')
+    line4, = plt.plot(range(BIBIBIBI),[c[3] for c in scores],label ='Max Time')
+    line5, = plt.plot(range(BIBIBIBI),[c[4] for c in scores],label ='amount')
+    plt.show()
+    plt.legend(handles=[line1, line2,line3,line4,line5])
+
     return scores
 
 
