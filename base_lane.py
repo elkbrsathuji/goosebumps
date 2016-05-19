@@ -63,3 +63,7 @@ class base_lane(object):
 		self._generate(time)
 		return car_out
 
+		def export(self,time):
+			cars_list = [(i,i.get_time_in_j(time)) for i in self._cars]
+			return cars_list
+
