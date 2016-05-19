@@ -1,4 +1,4 @@
-function [Score] = calc_score(lambda, Option, NumOfCars,beta, alfa, p)
+function [Score] = calc_score(Option, NumOfCars)
 % lambda is a double array of size 4*4 each lambda_ij is the matching scalar
 % for the cars traffic light that is comming from lane i*2-1 to lane j*2
 % Option is a boolean array of size 4*4 each index - i,j reffering to
