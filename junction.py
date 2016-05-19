@@ -52,6 +52,7 @@ class junction(object):
     """
     def _get_stats_from_lane(self,i,j,time):
         cars = self._lanes[i][j].export(time)
+        print "cars are",cars
         #avg = self._lanes[i][j].get_avg()
         #sum = self._lanes[i][j].get_sum()
         #num_of_cars = self._lanes[i][j].num_cars()

@@ -62,5 +62,8 @@ class base_lane(object):
 
 	def export(self,time):
 		cars_list = [(i.get_time_in_j(time)) for i in self._cars]
-		return cars_list
+		if cars_list:
+			return
+		else:
+			return 0
 
