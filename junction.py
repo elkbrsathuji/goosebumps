@@ -31,4 +31,22 @@ class junction(object):
             else:
                 self._lanes[i][j].tick(time)
 
-    
+    def get_stats(self):
+         stats = [[None for _ in range(4)] for _ in range(4)]
+         for [element] in self._indices:
+            i=element[0]
+            j=element[1]
+            stats.append(self._get_stats_from_lane(i,j))
+
+    """
+    This function returns 4 elemnts which are a list of cars and their current waiting time
+    the average time thier waiting
+    the sum of all cars waiting time
+    and the number of cars
+    """
+    def _get_stats_from_lane(self,i,j):
+        cars = self._lanes[i][j].export()
+        avg = self._lanes[i][j].get_avg()
+        sum = self._lanes[i][j].get_sum()
+        num_of_cars = self._lanes[i][j].num_cars()
+        return cars,avg,sum,num_of_cars
