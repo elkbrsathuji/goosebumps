@@ -3,7 +3,9 @@ This is the class of the basic car
 It contains time it
 """
 class base_car(object):
-    def _init_(self,time):
+
+
+    def __init__(self,time):
         """
         Basic car object
         :param time:

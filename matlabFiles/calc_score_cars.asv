@@ -26,12 +26,10 @@ other_weight = 0;
 other_weight_exp = 0;
 % performing the same calcaulation for all red lanes in this permutation.
 for i = 1:length(rows_other)
-    if ~isempty(NumOfCars(rows_other(i), cols_other(i)))
-        other_weight_exp = other_weight_exp + lambda(rows_other(i), cols_other(i))*...
+    other_weight_exp = other_weight_exp + lambda(rows_other(i), cols_other(i))*...
         exp(alfa*sum(NumOfCars(rows_other(i), cols_other(i))));
-        other_weight = other_weight + lambda(rows_other(i), cols_other(i))*...
+    other_weight = other_weight + lambda(rows_other(i), cols_other(i))*...
         sum((NumOfCars(rows_other(i), cols_other(i)).^p));
-    end
 end
 score_order = my_weight - other_weight;
 score_exp = my_weight_exp - other_weight_exp;

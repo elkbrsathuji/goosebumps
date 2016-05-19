@@ -12,10 +12,10 @@ class junction(object):
         self._indices = []
         for i in range(4):
             for j in range(4):
-                if lanes_array[i][j]!=None:
-                    self._lanes[i][j] = base_lane()
+                if lanes_array[i][j]!=0:
+                    self._lanes[i][j] = base_lane(0.4)
                     self._indices.append([i,j])
-
+        print self._indices
     """
     At each tick we get the lights and we call all lanes
     to generate new cars and release cars
@@ -23,7 +23,7 @@ class junction(object):
     t_lights: current status of traffic lights
     """
     def tick(self,time,t_lights):
-        for [element] in self._indices:
+        for element in self._indices:
             i=element[0]
             j=element[1]
             if t_lights[i][j]==1:
@@ -31,4 +31,23 @@ class junction(object):
             else:
                 self._lanes[i][j].tick(time)
 
-    
+    def get_stats(self,time):
+         stats = [[None for _ in range(4)] for _ in range(4)]
+         for element in self._indices:
+            i=element[0]
+            j=element[1]
+            stats[i][j]=self._get_stats_from_lane(i,j,time)
+            print stats[i][j][1:4]
+
+    """
+    This function returns 4 elemnts which are a list of cars and their current waiting time
+    the average time thier waiting
+    the sum of all cars waiting time
+    and the number of cars
+    """
+    def _get_stats_from_lane(self,i,j,time):
+        cars = self._lanes[i][j].export(time)
+        avg = self._lanes[i][j].get_avg()
+        sum = self._lanes[i][j].get_sum()
+        num_of_cars = self._lanes[i][j].num_cars()
+        return cars,avg,sum,num_of_cars
