@@ -11,9 +11,9 @@ class base_generator(object):
         self._prob = prob
 
     def generate_car(self,time):
-        x = np.random
+        x = np.random.random_sample()
         cars_list = []
-        if x>=self._prob:
+        if x<=self._prob:
             car = base_car(time)
             cars_list.append(car)
         return cars_list

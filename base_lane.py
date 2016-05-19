@@ -1,6 +1,6 @@
-import base_generator.base_generator
-import gause_generator.gauss_generator
-import base_car.base_car
+from base_generator import base_generator
+# import gause_generator.gauss_generator
+from base_car import base_car
 
 class base_lane(object):
 
@@ -23,22 +23,16 @@ class base_lane(object):
 	def get_avg(self):
 		return self._avg
 
-	def get_sum(self);
-		return self.sum_waiting
-
-	def _generate(self, time):
-		cars = self._generator.generate_car(time)
-		if len(cars):
-			push(cars)
-		return
+	def get_sum(self):
+		return self._sum_waiting
 
 	def generate(self, time):
 		cars = self._generator.generate_car(time)
 		if len(cars):
-			push(cars)
+			self._push(cars)
 		return
 
-	def _pop(self, time)
+	def _pop(self, time):
 		self._cars[0].set_time_out(time)
 		car = self._cars.pop(0)
 		return car
@@ -47,11 +41,14 @@ class base_lane(object):
 		self._cars.extend(cars)
 		return
 
-	def _time_update(self,green):
+	def _time_update(self,green,time):
 		count = 0
 		for c in self._cars:
-			count += c.get_time_in_j
-		self._avg = count/len(self._cars)
+			count += c.get_time_in_j(time)
+		if len(self._cars)== 0:
+			self._avg = 0
+		else:
+			self._avg = count/len(self._cars)
 		self._sum_waiting = count
 		return 
 
@@ -59,11 +56,11 @@ class base_lane(object):
 		car_out = None
 		if green:
 			car_out = self._pop(time)
-		self._time_update(green)
-		self._generate(time)
+		self._time_update(green,time)
+		self.generate(time)
 		return car_out
 
-		def export(self,time):
-			cars_list = [(i,i.get_time_in_j(time)) for i in self._cars]
-			return cars_list
+	def export(self,time):
+		cars_list = [(i,i.get_time_in_j(time)) for i in self._cars]
+		return cars_list
 
