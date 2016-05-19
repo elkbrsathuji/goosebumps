@@ -16,6 +16,8 @@ class junction(object):
                     self._lanes[i][j] = base_lane(0.4)
                     self._indices.append([i,j])
         print self._indices
+
+        self._timeInJunc= []
     """
     At each tick we get the lights and we call all lanes
     to generate new cars and release cars
@@ -30,11 +32,39 @@ class junction(object):
             j=element[1]
             if t_lights[i][j]==1:
                 cars_out = self._lanes[i][j].tick(time,True)
+
                 if cars_out:
                     out_car_lanes[i][j]=1
+                    self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
+
             else:
                 self._lanes[i][j].tick(time)
         return out_car_lanes
+
+    # Erez:
+    def update_junction_statistics(self,timeInJunc):
+        self._timeInJunc.append(timeInJunc)
+
+
+    def getStatistics(self):
+        meanTime=0
+        maxTime=0
+        amount=0
+        for timeInJunc in self._timeInJunc:
+            meanTime= timeInJunc+meanTime
+            amount+=1
+            if maxTime<timeInJunc:
+                maxTime=timeInJunc
+
+        variance=0
+        for timeInJunc in self._timeInJunc:
+            variance=(meanTime-timeInJunc)*(meanTime-timeInJunc)/amount
+
+        return meanTime,variance,maxTime
+
+
+
+
 
     def get_stats(self,time):
         stats = [[None for _ in range(4)] for _ in range(4)]
@@ -42,9 +72,6 @@ class junction(object):
             i=element[0]
             j=element[1]
             stats[i][j]=self._get_stats_from_lane(i,j,time)
-            #print "stats[i][j]=",stats[i][j]
-            #if stats[i][j]==None:
-            #    stats[i][j]=[0]
             #print stats[i][j][1:4]
         return stats
 
