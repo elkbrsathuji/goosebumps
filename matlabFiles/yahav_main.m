@@ -1,4 +1,4 @@
-function [timeToNext] = main(numOfCars)
+function [timeToNext] = yahav_main(numOfCars)
 
     timeToNext = 0;
     options = zeros(4,4,13);
@@ -22,12 +22,12 @@ function [timeToNext] = main(numOfCars)
         masks(:,:,k+1) = repmat(de2bi(k,4),4,1);
     end
     
-    for i=1:13
-        for j=1:16
-            options(:,:,i).*masks(:,:,j)
-            calc_score(options(;,;,i).*masks(:,:,j));
-        end
-    end
+%     for i=1:13
+%         for j=1:16
+%             options(:,:,i).*masks(:,:,j)
+%             calc_score(options(;,;,i).*masks(:,:,j));
+%         end
+%     end
 end
     
     
