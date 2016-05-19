@@ -8,9 +8,12 @@ class junction(object):
     def __init__(self,lanes_array,gen_array=None):
         #initialize lanes
         self._lanes = [[None for _ in range(4)] for _ in range(4)]
-        self._lights = [[[0,0] for _ in range(4)] for _ in range(4)
+        self._lights = [[[0,0] for _ in range(4)] for _ in range(4)]
         #This array decices which lane have its own generator
-        #self._gen_array =
+        if gen_array==None:
+            self._gen_array = [[1]*4]*4
+        else:
+            self._gen_array=gen_array
         #indices are saving all the indices which have valid lanes
         self._indices = []
         for i in range(4):
@@ -29,14 +32,18 @@ class junction(object):
     """
     def tick(self,time,t_lights):
         #Saving an array of lanes which took out cars
-        out_car_lanes = [[None for _ in range(4)] for _ in range(4)]
+        out_car_lanes = []
         for element in self._indices:
             i=element[0]
             j=element[1]
+            if self._gen_array[i][j]==1:
+                gen=True
+            else:
+                gen=False
             if t_lights[i][j]==1:
-                cars_out = self._lanes[i][j].tick(time,True)
+                cars_out = self._lanes[i][j].tick(time,True,gen)
                 if cars_out:
-                    out_car_lanes[i][j]=1
+                    out_car_lanes.append(j)
                     self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
                 #Setting the correct timers for the traffic lights
                 #TL turned from red to green, reset timer
@@ -48,7 +55,7 @@ class junction(object):
                     self._lights[i][j][1]+=1
             else:
                 #TL turned from green to red, reset timer
-                self._lanes[i][j].tick(time)
+                self._lanes[i][j].tick(time,False,gen)
                 if t_lights[i][j][0]==1:
                     self._lights[i][j][0]=0
                     self._lights[i][j][1]=0
@@ -58,6 +65,11 @@ class junction(object):
 
     def get_lights(self):
         return self._lights
+
+    def push_car_to_lane(self,lane_idx):
+        i=lane_idx[0]
+        j=lane_idx[1]
+        self._lanes[i][j].add_car()
 
     # Erez:
     def update_junction_statistics(self,timeInJunc):
@@ -78,9 +90,6 @@ class junction(object):
             variance=(meanTime-timeInJunc)*(meanTime-timeInJunc)/amount
 
         return meanTime,variance,maxTime,amount
-
-
-
 
 
     def get_cars_stats(self,time):

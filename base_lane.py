@@ -5,16 +5,16 @@ from base_car import base_car
 class base_lane(object):
 
 	def __init__(self, prob = 0.5, generator = None,generateArray=None):
-         self._cars = list()
-         self._avg = 0
-         self._sum_waiting = 0
-         if not generator:
-             self._generator = base_generator(prob)
-             self._nextGen=-1;
-         else:
-             self._generateArray=generateArray
-             self._nextGen=0;
-             self._generator = generator
+		self._cars = list()
+		self._avg = 0
+		self._sum_waiting = 0
+		if not generator:
+			self._generator = base_generator(prob)
+			self._nextGen=-1;
+		else:
+			self._generateArray=generateArray
+			self._nextGen=0;
+			self._generator = generator
 
 	def num_cars(self):
 		return len(self._cars)
@@ -29,18 +29,21 @@ class base_lane(object):
 	def get_sum(self):
 		return self._sum_waiting
 
+	def add_car(self,time):
+		car = base_car(time)
+		self._push([car])
+
 	def generate(self, time):
-           if self._nextGen==-1:
-               cars = self._generator.generate_car(time)
-               if len(cars):
-                   self._push(cars)
-           else:
-               if self._generateArray(self._nextGen):
-                   car = base_car(time)
-                   self._push([car])
-                   self._nextGen= self._nextGen+1
-                  
-           return
+			if self._nextGen==-1:
+				cars = self._generator.generate_car(time)
+				if len(cars):
+					self._push(cars)
+			else:
+				if self._generateArray(self._nextGen):
+					car = base_car(time)
+					self._push([car])
+					self._nextGen= self._nextGen+1
+			return
 
 	def _pop(self, time):
 		self._cars[0].set_time_out(time)
@@ -62,12 +65,13 @@ class base_lane(object):
 		self._sum_waiting = count
 		return 
 
-	def tick(self, time, green = False):
+	def tick(self, time, green = False,gen=True):
 		car_out = None
 		if green and len(self._cars)!=0:
 			car_out = self._pop(time)
 		self._time_update(green,time)
-		self.generate(time)
+		if gen:
+			self.generate(time)
 		return car_out
 
 	def export(self,time):
