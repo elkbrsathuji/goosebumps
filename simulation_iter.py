@@ -1,5 +1,5 @@
 import numpy as np
-from junction import junction as base_junction
+from junction_param import junction as base_junction
 import matlab.engine
 import matplotlib.pyplot as plt
 
