@@ -18,7 +18,7 @@ class base_car(object):
     def get_time_out(self):
         return self._time_out
 
-    #retunrn the time the car is currently in the jucntion
+    #retunrn the time the car is currently in the lane
     def get_time_in_j(self,time):
         return (time-self._time_in)
 

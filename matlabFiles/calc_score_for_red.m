@@ -1,4 +1,4 @@
-function [Score_exp, Score_order] = calc_score(lambda, Option, NumOfCars,beta, alfa, p)
+function [Score] = calc_score_for_red(Traffic, NumOfCars, beta, alfa, p)
 % lambda is a double array of size 4*4 each lambda_ij is the matching scalar
 % for the cars traffic light that is comming from lane i*2-1 to lane j*2
 % Option is a boolean array of size 4*4 each index - i,j reffering to
@@ -14,8 +14,10 @@ my_weight_exp = 0;
 % performing the calculation: lambda(i)*e^(beta*sum(waiting time of i))
 % for all green lanes in this permutation.
 for i = 1:length(rows)
-    my_weight_exp = my_weight + lambda(rows(i), cols(i))*...
+    my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
         exp(beta*sum(NumOfCars(rows(i), cols(i))));
+    my_weight = my_weight + lambda(rows(i), cols(i))*...
+        sum((NumOfCars(rows(i), cols(i)).^p));
 end
 [rows_other cols_other] = find(Option == 0);
 other_weight = 0;
@@ -27,7 +29,6 @@ for i = 1:length(rows_other)
     other_weight = other_weight + lambda(rows_other(i), cols_other(i))*...
         sum((NumOfCars(rows_other(i), cols_other(i)).^p));
 end
-score_square = my_weight - other_weight;
+score_order = my_weight - other_weight;
 score_exp = my_weight_exp - other_weight_exp;
 end
-
