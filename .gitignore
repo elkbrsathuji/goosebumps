@@ -46,3 +46,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 Request.txt
+<<<<<<< HEAD
+=======
+.idea/workspace.xml
+*.xml
+>>>>>>> origin/master

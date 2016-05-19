@@ -12,6 +12,15 @@ B. Update: Navigate the cars into specific lanes( Right, Stright,  Left)
 
 
 Optional:
+<<<<<<< HEAD
+1. עבירות - The condition of the lane\junction - Factor between 0,1
+(Factor * amountOfNormalCarsThatGoThroughThe)
+>>>>>>> origin/master
+=======
 1. passability - The condition of the lane\junction - Factor between 0,1
 (Factor * amountOfNormalCarsThatGoThroughThe)
+<<<<<<< HEAD
 >>>>>>> cab6446d789dbff00a129bd9671a0152abc2b284
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
