@@ -1,7 +1,4 @@
 Need:
-Update Lane Cars From Another  Junction-
-1. Input: amount of cars
-2. Update: Navigate the cars into specific lanes( Right, Stright,  Left)Need:
 
 Erez Need For Arch:
 1. Update Lane Cars From Another  Junction-
@@ -10,5 +7,5 @@ B. Update: Navigate the cars into specific lanes( Right, Stright,  Left)
 
 
 Optional:
-1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - The condition of the lane\junction - Factor between 0,1
+1. òáéøåú - The condition of the lane\junction - Factor between 0,1
 (Factor * amountOfNormalCarsThatGoThroughThe)
