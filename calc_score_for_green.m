@@ -1,4 +1,4 @@
-function [score_green_exp, score_green_order] = ...
+function [score_green] = ...
     calc_score_for_green(Traffic_time, Option, beta, sigma, p, NumOfCars)
 % Traffic_time is a double array of size 4*4 each index - i,j reffering to
 % a traffic light that is comming from lane i*2-1 to lane j*2. Each slot is
@@ -9,9 +9,8 @@ function [score_green_exp, score_green_order] = ...
 % sigma (4*4 array), beta are scalars to learn
 Ind = find(Traffic_time); % will use it to zero out green traffic lights
 sigma(Ind) = 0;
-temp_green_exp = sigma.*exp(beta*Traffic_time);
-temp_green_order = sigma.*(Traffic_time.^p);
-
-score_green_exp = sum(Option.*temp_green_exp);
-score_green_order = sum(Option.*temp_green_order);
+% Bonus for being green will decay with time (target to keep it green for
+% a decent amount of time)
+temp_green_order = sigma.*(1/ (beta + (Traffic_time.^p)));
+score_green = sum(Option.*temp_green_order);
 end

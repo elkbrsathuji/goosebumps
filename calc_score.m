@@ -14,7 +14,7 @@ sigma_g = ones(4);
 beta = 1;
 alfa = 1;
 beta_r = 1;
-beta_g = 1;
+beta_g = 0.1;
 p = 2;
 p_r = 2;
 p_g = 2;
@@ -23,7 +23,7 @@ p_g = 2;
 % Runing the traffic lights related score both exp and polinomyal
 [score_red_exp, score_red_order] = ...
     calc_score_for_red(Traffic_time_r, Option, beta_r, sigma_r, p_r);
-[score_green_exp, score_green_order] = ...
+[score_green] = ...
     calc_score_for_green(Traffic_time_g, Option, beta_g, sigma_g, p_g);
 
 end
