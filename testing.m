@@ -1,6 +1,3 @@
-function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
-
-    save('numOfCars.mat', 'numOfCars');
     my_numOfCars = cell(4,4);
     for i = 1:4
         my_numOfCars(:,i) = numOfCars{1,i};
@@ -24,36 +21,25 @@ function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
 % I'm assuming that everytime a car tern right people can walk! Hence there 
 % are only 13 optimal options.
 
-forTest = zeros(1,size(options,3));
+forTest_poly = zeros(1,size(options,3));
+forTest_expy = zeros(1,size(options,3));
 % going over all options and choosing the maximal score
-final_score = -40000*ones(1,2);
+final_score = -40000*ones(1,4);
 for j = 1:size(options,3)
-    temp = calc_score(options(:,:,j), my_numOfCars);
-    forTest(j) = temp;
-    if (temp > final_score(1))
-        final_score(1) = temp;
+    poly = calc_score(options(:,:,j), my_numOfCars, true);
+    expy = calc_score(options(:,:,j), my_numOfCars, false);
+    forTest_poly(j) = ploy;
+    forTest_expy(j) = expy;
+    if (poly > final_score(1))
+        final_score(1) = poly;
         final_score(2) = j;
+    end
+    if (expy > final_score(3))
+        final_score(3) = expy;
+        final_score(4) = j;
     end
 end
 % when testing I want to see the score for each call
-figure; plot(1:13, forTest)
+figure; plot(1:13, forTest_expy, 1:13, forTest_poly)
 load('time');
-title(strcat('score of each option for time: ', time));
-time = time + 1;
-save('time.mat','time');
-
-% creating sub options  
-%     masks = zeros(4,4,16);
-%     for k=0:15
-%         masks(:,:,k+1) = repmat(de2bi(k,4),4,1);
-%     end
-%     
-%     for i=1:13
-%         for j=1:16
-%             options(:,:,i).*masks(:,:,j)
-%             calc_score(options(;,;,i).*masks(:,:,j));
-%         end
-%     end
-end
-    
-    
+title(strcat('score of each option for time: ', int2str(time)))
