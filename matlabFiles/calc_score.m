@@ -22,13 +22,8 @@ p_g = 2;
 [Score_exp, Score_order] = calc_score_cars(lambda, Option, NumOfCars, beta, alfa, p);
 % Runing the traffic lights related score both exp and polinomyal
 [score_red_exp, score_red_order] = ...
-    calc_score_for_red(Traffic_time_r, beta_r, sigma_r, p_r);
+    calc_score_for_red(Traffic_time_r, Option, beta_r, sigma_r, p_r);
 [score_green_exp, score_green_order] = ...
-    calc_score_for_green(Traffic_time_g, beta_g, sigma_g, p_g);
-
-final_green_exp = sum(Option.*score_green_exp);
-final_green_order = sum(Option.*score_green_order);
-final_red_exp = sum(Option.*score_red_exp);
-final_red_order = sum(Option.*score_red_order);
+    calc_score_for_green(Traffic_time_g, Option, beta_g, sigma_g, p_g);
 end
 
