@@ -1,0 +1,4 @@
+# 1. array of length 4 - in each entry: (neighbor junction id, three at most directions of that neighbor that go into this current junction)
+#       each direction is a pair of two numbers
+
+# 2. 
