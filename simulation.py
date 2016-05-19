@@ -10,14 +10,16 @@ def simulate(adj_mat, T = 100):
     oracle = None
     TL = np.zeros((4,4))
     TL = TL.tolist()
-    for t in xrange(T):
+    for t in range(T):
         junction.tick(t,TL)
         stats = junction.get_stats(t)
+        if stats==None:
+            stats=[[0]*4]*4
         print "t=",t
         print stats
         #tf = eng.yahav_main(stats[:][0])
 		#print stats[0][1][1:3]
-	return
+    return
 
 
 if __name__ == "__main__":
