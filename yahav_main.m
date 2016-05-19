@@ -1,6 +1,6 @@
 function [timeToNext] = yahav_main(numOfCars)
 
-    timeToNext = 0;
+    timeToNext = 1;
     options = zeros(4,4,13);
     options(:,:,1) = [0,0,1,1;0,0,0,0;1,1,0,0;0,0,0,0];
     options(:,:,2) = [0,0,0,0;1,0,0,1;0,0,0,0;0,1,1,0];
