@@ -24,8 +24,8 @@ if __name__ == "__main__":
 	eng = matlab.engine.start_matlab()
 	tf = eng.yahav_main(37)
 	end = time.time()
-
-	print "tf", end-st
+	print tf
+	#print "tf", end-st
 
 	LANES = 4
 	adj_mat = np.ones((4,4))-np.identity(4)
