@@ -1,5 +1,6 @@
 import base_generator.base_generator
 import gause_generator.gauss_generator
+import 
 
 class base_lane(object):
 
@@ -25,8 +26,14 @@ class base_lane(object):
 	def get_sum(self);
 		return self.sum_waiting
 
-	def _generate(self):
-		cars = self._generator.generate_car()
+	def _generate(self, time):
+		cars = self._generator.generate_car(time)
+		if len(cars):
+			push(cars)
+		return
+
+	def generate(self, time):
+		cars = self._generator.generate_car(time)
 		if len(cars):
 			push(cars)
 		return
@@ -39,17 +46,19 @@ class base_lane(object):
 		self._cars.extend(cars)
 		return
 
-	def _avg_update(self):
+	def _time_update(self,green):
+		#TODO what happens if car leaves the lane?
+		count = 0
+		for c in self._cars:
+			count += c.get_time_in_j
+		self._avg = count/len(self._cars)
+		self._sum_waiting = count
+		return 
 
-		pass
-
-	def _sum_update(self):
-
-		pass
-
-	def tick(self, green = False):
-		self._generate()
-		self._avg_update(green)
-		self._sum_update(green)
+	def tick(self, time, green = False):
+		self._generate(time)
+		self._time_update(green)
+		if green:
+			self._pop()
 		return
 
