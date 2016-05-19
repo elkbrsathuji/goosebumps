@@ -23,13 +23,18 @@ class junction(object):
     t_lights: current status of traffic lights
     """
     def tick(self,time,t_lights):
+        #Saving an array of lanes which took out cars
+        out_car_lanes = [[None for _ in range(4)] for _ in range(4)]
         for element in self._indices:
             i=element[0]
             j=element[1]
             if t_lights[i][j]==1:
-                self._lanes[i][j].tick(time,True)
+                cars_out = self._lanes[i][j].tick(time,True)
+                if cars_out:
+                    out_car_lanes[i][j]=1
             else:
                 self._lanes[i][j].tick(time)
+        return out_car_lanes
 
     def get_stats(self,time):
          stats = [[None for _ in range(4)] for _ in range(4)]
@@ -37,7 +42,7 @@ class junction(object):
             i=element[0]
             j=element[1]
             stats[i][j]=self._get_stats_from_lane(i,j,time)
-            print stats[i][j][1:4]
+            #print stats[i][j][1:4]
 
     """
     This function returns 4 elemnts which are a list of cars and their current waiting time
@@ -47,7 +52,7 @@ class junction(object):
     """
     def _get_stats_from_lane(self,i,j,time):
         cars = self._lanes[i][j].export(time)
-        avg = self._lanes[i][j].get_avg()
-        sum = self._lanes[i][j].get_sum()
-        num_of_cars = self._lanes[i][j].num_cars()
-        return cars,avg,sum,num_of_cars
+        #avg = self._lanes[i][j].get_avg()
+        #sum = self._lanes[i][j].get_sum()
+        #num_of_cars = self._lanes[i][j].num_cars()
+        return cars

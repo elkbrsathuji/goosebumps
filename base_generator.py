@@ -5,7 +5,6 @@ Its generates with uniform dictibution
 from base_car import base_car
 import numpy as np
 
-
 class base_generator(object):
     def __init__(self,prob=0):
         self._prob = prob

@@ -54,7 +54,7 @@ class base_lane(object):
 
 	def tick(self, time, green = False):
 		car_out = None
-		if green:
+		if green and len(self._cars)!=0:
 			car_out = self._pop(time)
 		self._time_update(green,time)
 		self.generate(time)
