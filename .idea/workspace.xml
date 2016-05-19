@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f586f478-a829-47a6-bc8c-08901bc80013" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/junction.py" afterPath="$PROJECT_DIR$/junction.py" />
     </list>
     <ignored path="goosebumps.iws" />
     <ignored path=".idea/workspace.xml" />
