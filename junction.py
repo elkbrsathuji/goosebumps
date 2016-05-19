@@ -61,8 +61,10 @@ class junction(object):
         variance=0
         for timeInJunc in self._timeInJunc:
             variance=(meanTime-timeInJunc)*(meanTime-timeInJunc)/amount
-
-        return meanTime,variance,maxTime
+        
+        self._timeInJunc.sort()
+        median= self._timeInJunc.index[amount/2 + amount%2]
+        return meanTime,variance,median, maxTime, amount
 
 
 
