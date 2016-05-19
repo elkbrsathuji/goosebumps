@@ -7,5 +7,5 @@ B. Update: Navigate the cars into specific lanes( Right, Stright,  Left)
 
 
 Optional:
-1. עבירות - The condition of the lane\junction - Factor between 0,1
+1. passability - The condition of the lane\junction - Factor between 0,1
 (Factor * amountOfNormalCarsThatGoThroughThe)
