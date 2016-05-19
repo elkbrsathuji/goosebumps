@@ -1,4 +1,4 @@
-function [timeToNext, option] = yahav_main(numOfCars)
+function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
 
     save('numOfCars.mat', 'numOfCars');
     my_numOfCars = cell(4,4);
@@ -35,6 +35,12 @@ for j = 1:size(options,3)
         final_score(2) = j;
     end
 end
+% when testing I want to see the score for each call
+figure; plot(1:13, forTest)
+load('time');
+title(strcat('score of each option for time: ', time));
+time = time + 1;
+save('time.mat','time');
 
 % creating sub options  
 %     masks = zeros(4,4,16);
