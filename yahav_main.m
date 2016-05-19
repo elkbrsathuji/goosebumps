@@ -25,7 +25,7 @@ function [timeToNext] = main(numOfCars)
     for i=1:13
         for j=1:16
             options(:,:,i).*masks(:,:,j)
-            %calc_score(options(;,;,i).*masks(:,:,j));
+            calc_score(options(;,;,i).*masks(:,:,j));
         end
     end
 end
