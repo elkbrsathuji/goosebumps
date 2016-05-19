@@ -5,7 +5,7 @@ which is a collection of lanes
 from base_lane import base_lane
 class junction(object):
 
-    def __init__(self,lanes_array):
+    def __init__(self,lanes_array,generateArray=[]):
         #initialize lanes
         self._lanes = [[None for _ in range(4)] for _ in range(4)]
         #indices are saving all the indixes which have valid lanes
@@ -13,11 +13,13 @@ class junction(object):
         for i in range(4):
             for j in range(4):
                 if lanes_array[i][j]!=0:
-                    self._lanes[i][j] = base_lane(0.4)
+                    self._lanes[i][j] = base_lane(0.4,None, generateArray)
                     self._indices.append([i,j])
         print self._indices
-
+        
         self._timeInJunc= []
+        
+        
     """
     At each tick we get the lights and we call all lanes
     to generate new cars and release cars

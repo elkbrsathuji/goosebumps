@@ -4,14 +4,17 @@ from base_car import base_car
 
 class base_lane(object):
 
-	def __init__(self, prob = 0.5, generator = None):
-		self._cars = list()
-		self._avg = 0
-		self._sum_waiting = 0
-		if not generator:
-			self._generator = base_generator(prob)
-		else:
-			self._generator = generator
+	def __init__(self, prob = 0.5, generator = None,generateArray=None):
+         self._cars = list()
+         self._avg = 0
+         self._sum_waiting = 0
+         if not generator:
+             self._generator = base_generator(prob)
+             self._nextGen=-1;
+         else:
+             self._generateArray=generateArray
+             self._nextGen=0;
+             self._generator = generator
 
 	def num_cars(self):
 		return len(self._cars)
@@ -27,10 +30,17 @@ class base_lane(object):
 		return self._sum_waiting
 
 	def generate(self, time):
-		cars = self._generator.generate_car(time)
-		if len(cars):
-			self._push(cars)
-		return
+           if self._nextGen==-1:
+               cars = self._generator.generate_car(time)
+               if len(cars):
+                   self._push(cars)
+           else:
+               if self._generateArray(self._nextGen):
+                   car = base_car(time)
+                   self._push([car])
+                   self._nextGen= self._nextGen+1
+                  
+           return
 
 	def _pop(self, time):
 		self._cars[0].set_time_out(time)
@@ -38,7 +48,7 @@ class base_lane(object):
 		return car
 
 	def _push(self,cars):
-		self._cars.extend(cars)
+		self._cars.append(cars)
 		return
 
 	def _time_update(self,green,time):
