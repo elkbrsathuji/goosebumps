@@ -45,8 +45,8 @@ def simulate(junctionsMeta, T = 200):
             if out_car_lanes:
                 for lane in out_car_lanes:
                     neighbour= [(dist,nID) for nID,lane,dist in nei]
-                    if neighbourID:
-                        junctions_on_hold.append((neighbour[0][0],neighbour[0][1],getMirrorLane(lane)))
+                    if neighbour:
+                        junctions_on_hold.append((neighbour[0][0],neighbour[0][1],getMirrrorLane(lane)))
                 
             stats = junction.get_cars_stats(t)
     
@@ -56,7 +56,9 @@ def simulate(junctionsMeta, T = 200):
                 for j in range(4):
                     if stats[i][j]==None:
                         stats[i][j]=[0]
-            print "stats",stats	
+            print "stats",stats
+
+
             tf = eng.yahav_main(stats)
             print "t=",t
             
@@ -77,7 +79,7 @@ def udpate_mat(adj_mat,out):
 def create_junctions(adj_mat):
     amountJunctions=2
     junctions=[]
-    for i in range(amoutJunctions):
+    for i in range(amountJunctions):
         LANES = 4
         adj_mat = np.ones((4,4))-np.identity(4)
         generator_adj_mat = np.ones((4,4))-np.identity(4)
