@@ -15,7 +15,7 @@ my_weight = 0;
 % for all green lanes in this permutation.
 for i = 1:length(rows)
 %     lane = cell2mat(NumOfCars{rows(i), cols(i)});
-    lane = NumOfCars{rows(i), cols(i)};
+    lane = cell2mat(NumOfCars{rows(i), cols(i)});
     if ~isempty(lane)
 %         my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
 %             exp(beta*sum(lane));

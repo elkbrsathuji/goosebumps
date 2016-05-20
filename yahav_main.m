@@ -1,4 +1,4 @@
-function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
+function [option] = yahav_main(numOfCars, Traffic_lights)
 
     save('numOfCars.mat', 'numOfCars');
     save('Traffic_lights.mat','Traffic_lights')
@@ -6,6 +6,18 @@ function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
     for i = 1:4
         my_numOfCars(:,i) = numOfCars{1,i};
     end
+    Traffic_lights_on = zeros(4,4,1);
+    Traffic_lights_time = zeros(4,4,1);
+    for v = 1:4
+        for u = 1:4
+            temp = Traffic_lights{1,v};
+            temp = temp{1,u};
+            Traffic_lights_on(v,u,1) = temp{1};
+            Traffic_lights_time(v,u,1) = temp{2};
+        end
+    end
+    Traffic_lights_g = Traffic_lights_on.*Traffic_lights_time;
+    Traffic_lights_r = (~Traffic_lights_on).*Traffic_lights_time;
     timeToNext = 10; % It's going to be static
     options = zeros(4,4,13);
     options(:,:,1) = [0,0,1,1;0,0,0,0;1,1,0,0;0,0,0,0];
@@ -44,19 +56,19 @@ for j = 1:size(options,3)
 end
 option = options(:,:,final_score(2));
 % when testing I want to see the score for each call
-load('time');
-figure; plot(1:13, total)
-title(strcat('Total score! of each option for time: ', int2str(time)))
-figure; plot(1:13, car_poly)
-title(strcat('poly car score of each option for time: ', int2str(time)))
-figure; plot(1:13, r_poly)
-title(strcat('poly red lights score of each option for time: ', int2str(time)))
-figure; plot(1:13, r_expy)
-title(strcat('expy red lights score of each option for time: ', int2str(time)))
-figure; plot(1:13, g_poly)
-title(strcat('poly green lights score of each option for time: ', int2str(time)))
-time = time + 1;
-save('time.mat','time');
+% load('time');
+% figure; plot(1:13, total)
+% title(strcat('Total score! of each option for time: ', int2str(time)))
+% figure; plot(1:13, car_poly)
+% title(strcat('poly car score of each option for time: ', int2str(time)))
+% figure; plot(1:13, r_poly)
+% title(strcat('poly red lights score of each option for time: ', int2str(time)))
+% figure; plot(1:13, r_expy)
+% title(strcat('expy red lights score of each option for time: ', int2str(time)))
+% figure; plot(1:13, g_poly)
+% title(strcat('poly green lights score of each option for time: ', int2str(time)))
+% time = time + 1;
+% save('time.mat','time');
 
 % creating sub options  
 %     masks = zeros(4,4,16);
