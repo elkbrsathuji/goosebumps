@@ -57,7 +57,8 @@ class base_lane(object):
 	def _time_update(self,green,time):
 		count = 0
 		for c in self._cars:
-			count += c.get_time_in_j(time)
+			for car in c:
+				count += car.get_time_in_j(time)
 		if len(self._cars)== 0:
 			self._avg = 0
 		else:
@@ -75,7 +76,11 @@ class base_lane(object):
 		return car_out
 
 	def export(self,time):
-		cars_list = [(i.get_time_in_j(time)) for i in self._cars]
+		cars_list=[]
+		for list in self._cars:
+			for car in list:
+				cars_list.append(car.get_time_in_j(time))
+		#cars_list = [(car.get_time_in_j(time)) for car in cars]
 		if cars_list:
 			return cars_list
 		else:
