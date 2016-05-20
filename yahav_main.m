@@ -6,6 +6,7 @@ function [option] = yahav_main(numOfCars, Traffic_lights)
     for i = 1:4
         my_numOfCars(:,i) = numOfCars{1,i};
     end
+    my_numOfCars = my_numOfCars';
     Traffic_lights_on = zeros(4,4,1);
     Traffic_lights_time = zeros(4,4,1);
     for v = 1:4

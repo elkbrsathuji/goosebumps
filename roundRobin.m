@@ -29,6 +29,7 @@ function [option] = roundRobin(stats, time)
     for i = 1:4
         stats_mat(:,i) = stats{1,i};
     end
+    stats_mat = stats_mat';
     for i=1:13 
         probs(i) = sum(sum(options(:,:,i).*cell2mat(stats_mat)));         
     end
