@@ -25,18 +25,16 @@ function [timeToNext, option] = yahav_main(numOfCars, Traffic_lights)
 % Traffic_lights_r = ~options*25;
 % I'm assuming that everytime a car tern right people can walk! Hence there 
 % are only 13 optimal options.
-for k = 1:size(Traffic_lights_r,3)
+% for k = 1:size(Traffic_lights_r,3)
     car_poly = zeros(1,size(options,3));
-    car_expy = zeros(1,size(options,3));
-    r_poly = zeros(1,size(options,3));
     r_expy = zeros(1,size(options,3));
     g_poly = zeros(1,size(options,3));
     % going over all options and choosing the maximal score
     final_score = -40000*ones(1,4);
     for j = 1:size(options,3)
-        [car_poly(j), car_expy(j), r_poly(j), r_expy(j), g_poly(j)] =...
-            calc_score(options(:,:,j), my_numOfCars, Traffic_lights_r(:,:,k),...
-            Traffic_lights_g(:,:,k));
+        [car_poly(j), r_expy(j), g_poly(j)] =...
+            calc_score(options(:,:,j), my_numOfCars, Traffic_lights_r,...
+            Traffic_lights_g);
         if (car_expy(j) > final_score(3))
             final_score(3) = car_expy(j);
             final_score(4) = j;

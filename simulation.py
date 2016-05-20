@@ -20,7 +20,7 @@ def simulate(adj_mat, T = 200):
             continue
         junction.tick(t,tf)
         stats = junction.get_cars_stats(t)
-        lights = junction.get_light()
+        lights = junction.get_lights()
         # if stats==None:
         #     stats=[[0]*4]*4
         for i in range(4):
