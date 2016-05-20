@@ -5,7 +5,7 @@ import matlab.engine
 import time
 
 
-def update_waiting_list(junction_on_hold):
+def update_waiting_list(junctions_on_hold, junctionsMeta):
     junctions_on_holdNew = sorted(junctions_on_hold, key=lambda param: param[0])
     junctions_on_hold= []
     for (dist, juncId ,laneIn) in junctions_on_holdNew:
@@ -19,8 +19,7 @@ def update_waiting_list(junction_on_hold):
             junctionTo= laneIn-1 %4
         elif prob>0.8:
             junctionTo= laneIn+1 %4
-                
-        junctionMeta[juncId][0].push_car_to_lane([laneIn, junctionTo])
+        junctionsMeta[juncId][0].push_car_to_lane([laneIn, junctionTo])
 
 
 def simulate(junctionsMeta, T = 200):
@@ -32,7 +31,7 @@ def simulate(junctionsMeta, T = 200):
     tf = tf.tolist()
     for t in range(T):
         if junctions_on_hold: #update waiting list
-            junction_on_hold = update_waiting_list(junctions_on_hold)
+            junctions_on_hold = update_waiting_list(junctions_on_hold, junctionsMeta)
 
         
         for junction,nei in junctionsMeta:
@@ -58,7 +57,7 @@ def simulate(junctionsMeta, T = 200):
                         stats[i][j]=[0]
             print "stats",stats
 
-
+            get_entering_cars_number(junction, nei,[item[1] for item in nei], junctionsMeta)
             tf = eng.yahav_main(stats)
             print "t=",t
             
@@ -95,24 +94,28 @@ def create_junctions(adj_mat):
 
 
 # we need to calculate for each lane in each junction, the number of cars that want to reach this lane
-def get_entering_cars_number(junction_id):
+def get_entering_cars_number(current_junction, neighborsIdx, nei, junctionsMeta):
     sum = 0
-    current_junction = get_junction_by_id(junction_id)
-    result = l = [[[0, 0], [0, 0], [0, 0], [0, 0]]]*4
-    neighbors = get_neighbors(junction_id)
-    for neighbor in neighbors:
+    result = [[[0, 0], [0, 0], [0, 0], [0, 0]]]*4
+
+    for neiItem in nei:
+        neighborID=neiItem[0]
+        neignorLane= neiItem[1]
+        neighbor= junctionsMeta[neighborID]
         neighbor_lights = neighbor.get_lights();  # 4x4 array of pair (boolean light state, time in this state)
         neighbor_stats = neighbor.get_stats();  # 4x4 array - on each entry there is a list of numbers (that represent time that each car on this lane alredy waits)
-        relevant_lane = get_relevant_lane(junction_id, neighbor.get_id())
-        neighbor_exit_lane = get_neighbor_exit_lane(junction_id, neighbor.get_id())
+
+
+        relevant_lane =  neignorLane#get_relevant_lane(junction_id, neighbor.get_id())
+        neighbor_exit_lane = neignorLane+2% 4#get_ne3ighbor_exit_lane(junction_id, neighbor.get_id())
         for i in xrange(4):
-            result[relevant_lane][i][1] = get_distance(junction_id, neighbor.get_id())
+            result[relevant_lane][i][1] = neiItem[2]# get_distance(junction_id, neighbor.get_id())
             if neighbor_lights[i][neighbor_exit_lane]:
                 sum =+ len(neighbor_stats[i][neighbor_exit_lane])
         for i in xrange(4):
             result[relevant_lane][i][0] = sum*current_junction.get_prob(relevant_lane,i)
         sum = 0
-
+    return result
 
 
 
