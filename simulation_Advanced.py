@@ -5,6 +5,24 @@ import matlab.engine
 import time
 
 
+def update_waiting_list(junction_on_hold):
+    junctions_on_holdNew = sorted(junctions_on_hold, key=lambda param: param[0])
+    junctions_on_hold= []
+    for (dist, juncId ,laneIn) in junctions_on_holdNew:
+        if dist>0:
+            junctions_on_hold.append((dist-1, juncId ,laneIn))
+            continue
+        prob= np.random.uniform
+                
+        junctionTo=laneIn+2 % 4
+        if prob<0.2:
+            junctionTo= laneIn-1 %4
+        elif prob>0.8:
+            junctionTo= laneIn+1 %4
+                
+        junctionMeta[juncId][0].push_car_to_lane([laneIn, junctionTo])
+
+
 def simulate(junctionsMeta, T = 200):
     
     oracle = None    
@@ -13,24 +31,10 @@ def simulate(junctionsMeta, T = 200):
     tf = np.zeros((4,4))
     tf = tf.tolist()
     for t in range(T):
-        
+        if junctions_on_hold:
+        junction_on_hold = update_waiting_list(junctions_on_hold)
         if junctions_on_hold: #update waiting list
-            junctions_on_holdNew = sorted(junctions_on_hold, key=lambda param: param[0])
-            junctions_on_hold= []
-            for (dist, juncId ,laneIn) in junctions_on_holdNew:
-                if dist>0:
-                    junctions_on_hold.append((dist-1, juncId ,laneIn))
-                    continue
-                prob= np.random.uniform
-                
-                junctionTo=laneIn+2 % 4
-                if prob<0.2:
-                    junctionTo= laneIn-1 %4
-                elif prob>0.8:
-                    junctionTo= laneIn+1 %4
-                
-                junctionMeta[juncId][0].push_car_to_lane([laneIn, junctionTo])
-                
+                        
         
         for junction,nei in junctionsMeta:
             
@@ -58,6 +62,8 @@ def simulate(junctionsMeta, T = 200):
             print "t=",t
             
     return
+    
+    
 def getMirrrorLane( lane ):
     return (lane+2)%4
 
@@ -75,14 +81,15 @@ def create_junctions(adj_mat):
     for i in range(amoutJunctions):
         LANES = 4
         adj_mat = np.ones((4,4))-np.identity(4)
+        generator_adj_mat = np.ones((4,4))-np.identity(4)
         nei=[]
         if i==1:
-                nei=[1,1,3] #ID,direction , dist in time ticks
-                adj_mat= udpate_mat(adj_mat,1) # Adj_mat, out direction
+                nei=nei.append([1,1,3]) #ID,direction , dist in time ticks
+                generator_adj_mat= udpate_mat(generator_adj_mat,1) # Adj_mat, out direction
         else:
-                nei= [0,3,3]
-                adj_mat= udpate_mat(adj_mat,3)
-        junctions.append([base_junction(adj_mat), nei])
+                nei= nei.append([0,3,3])
+                generator_adj_mat= udpate_mat(generator_adj_mat,3)
+        junctions.append([base_junction(adj_mat,generator_adj_mat), nei])
     return  junctions
 
 if __name__ == "__main__":
