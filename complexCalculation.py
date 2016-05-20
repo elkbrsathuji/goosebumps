@@ -1,9 +1,20 @@
-# in manager:
+import junction
+
 class manager:
     def __init__(self):
         self.junctions_dict = {}  # all the junctions: key is the junction id, value is the junction's object itself
         self.neighbors_dict = {}  # key is junction id, value is a list of four-ples: the junction's neighbors' ids, the lane id of the junction in key for where they enter, the lane id of the junction in value from where they exit, their distance
-        self.junction_id = 0  # also the counter of 
+        self.junction_id = 0  # also the counter of the number of junctions
+
+
+    def add_junction(self):
+        self.junction_id = self.junction_id + 1
+        new_junction = junction([]) # TODO lanes array ?
+        self.junctions_dict[self.junction_id] = new_junction
+
+
+    def get_junction_by_id(self, junction_id):
+        pass
 
 
 
