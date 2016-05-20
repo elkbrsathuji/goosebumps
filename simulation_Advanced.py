@@ -29,12 +29,8 @@ def simulate(junctionsMeta, T = 200):
                 elif prob>0.8:
                     junctionTo= laneIn+1 %4
                 
-                    
-                junction=junctionMeta[juncId][0]
-                junction.push_car_to_lane([laneIn, junctionTo])
+                junctionMeta[juncId][0].push_car_to_lane([laneIn, junctionTo])
                 
-            
-        
         
         for junction,nei in junctionsMeta:
             
@@ -65,6 +61,13 @@ def simulate(junctionsMeta, T = 200):
 def getMirrrorLane( lane ):
     return (lane+2)%4
 
+def udpate_mat(adj_mat,out):
+    
+    for i in range(4):
+        adj_mat[i][out]=0
+        
+    return adj_mat
+
 
 def create_junctions(adj_mat):
     amountJunctions=2
@@ -75,8 +78,10 @@ def create_junctions(adj_mat):
         nei=[]
         if i==1:
                 nei=[1,1,3] #ID,direction , dist in time ticks
+                adj_mat= udpate_mat(adj_mat,1) # Adj_mat, out direction
         else:
                 nei= [0,3,3]
+                adj_mat= udpate_mat(adj_mat,3)
         junctions.append([base_junction(adj_mat), nei])
     return  junctions
 
