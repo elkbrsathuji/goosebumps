@@ -5,7 +5,7 @@ which is a collection of lanes
 from base_lane import base_lane
 class junction(object):
 
-    def __init__(self,lanes_array,gen_array=None):
+    def __init__(self,lanes_array,gen_array=None,probs=None):
         #initialize lanes
         self._lanes = [[None for _ in range(4)] for _ in range(4)]
         self._lights = [[[0,0] for _ in range(4)] for _ in range(4)]
@@ -14,12 +14,16 @@ class junction(object):
             self._gen_array = [[1]*4]*4
         else:
             self._gen_array=gen_array
+        if probs==None:
+            self._lane_probs= [[0.4]*4]*4
+        else:
+            self._lane_probs = probs
         #indices are saving all the indices which have valid lanes
         self._indices = []
         for i in range(4):
             for j in range(4):
                 if lanes_array[i][j]!=0:
-                    self._lanes[i][j] = base_lane(0.4)
+                    self._lanes[i][j] = base_lane(self._lane_probs[i][j])
                     self._indices.append([i,j])
         print self._indices
 
@@ -47,19 +51,19 @@ class junction(object):
                     self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
                 #Setting the correct timers for the traffic lights
                 #TL turned from red to green, reset timer
-                if t_lights[i][j][0]==0:
+                if t_lights[i][j]==0:
                     self._lights[i][j][0]=1
                     self._lights[i][j][1]=0
                 #Increase timer
-                elif t_lights[i][j][0]==1:
+                elif t_lights[i][j]==1:
                     self._lights[i][j][1]+=1
             else:
                 #TL turned from green to red, reset timer
                 self._lanes[i][j].tick(time,False,gen)
-                if t_lights[i][j][0]==1:
+                if t_lights[i][j]==1:
                     self._lights[i][j][0]=0
                     self._lights[i][j][1]=0
-                elif t_lights[i][j][0]==0:
+                elif t_lights[i][j]==0:
                     self._lights[i][j][1]+=1
         return out_car_lanes
 
