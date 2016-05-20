@@ -29,13 +29,17 @@ def simulate(adj_mat, T = 200):
         #Statistics
         stats = junction1.get_cars_stats(t)
         mean1 = junction1.get_statistics()[0]
+        #out_mean1 = junction1.get_avg()
+        var1 = junction1.get_statistics()[1]
         sum1 = junction1.get_statistics()[3]
         lights = junction1.get_lights()
         stats2 = junction2.get_cars_stats(t)
         mean2 = junction2.get_statistics()[0]
+        #out_mean2 = junction2.get_avg()
+        var2 = junction2.get_statistics()[1]
         sum2 = junction2.get_statistics()[3]
-        print mean1,sum1
-        print "ddd" ,mean2,sum2
+        print "Our average:",mean1," Number of cars:",sum1
+        print "Statistical algorithm average",mean2," Number of cars:",sum2
         # if stats==None:
         #     stats=[[0]*4]*4
         for i in range(4):

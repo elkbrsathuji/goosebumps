@@ -68,6 +68,19 @@ class junction(object):
                     self._lights[i][j][1]+=1
         return out_car_lanes
 
+    def get_avg(self):
+        sum=0
+        average=0
+        for element in self._indices:
+            i = element[0]
+            j = element[1]
+            tmp=self._lanes[i][j].num_cars()
+            tmp2=self._lanes[i][j].get_avg()
+            average+=tmp2*tmp
+            sum+=self._lanes[i][j].num_cars()
+        average=average/float(sum)
+        return average
+
     def get_lights(self):
         return self._lights
 
