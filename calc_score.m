@@ -17,12 +17,12 @@ p = 1;
 [Score_order] = calc_score_cars(lambda, Option, NumOfCars, alfa, p);
 Score_order = Score_order/(10^ceil(log10(Score_order)));
 
-sigma_r = 0.05*ones(4);
+sigma_r = (0.05/4)*ones(4);
 beta_r = 0.01;
 % Runing the traffic lights related score both exp and polinomyal
 [score_red] = calc_score_for_red(Traffic_time_r, Option, beta_r, sigma_r);
 
-sigma_g = 10*ones(4);
+sigma_g = (10/8)*ones(4);
 beta_g = 0.1;
 p_g = 2;
 
