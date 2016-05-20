@@ -1,6 +1,6 @@
 % stats - 4x4 matrix with proportional traffic volumes in a specific
 % junction (should sum up to 1).
-function [times] = roundRobin(stats)
+function [option] = roundRobin(stats, time)
     
     roundTime = 2*60;
 
@@ -31,7 +31,17 @@ function [times] = roundRobin(stats)
     end
     
     probs = probs./sum(probs);
-    
     times = roundTime*probs;
     
+    modTime = mod(time, roundTime);
+    
+    i = 1;
+    temp = modTime - times(i)
+    
+    while(temp > 0)
+       i = i + 1;
+       temp = temp - times(i)    
+    end
+    
+    option = options(:,:,i);
 end
