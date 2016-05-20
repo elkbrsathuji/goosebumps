@@ -1,22 +1,26 @@
 import numpy as np
 from junction import junction as base_junction
+from heatmap import stats_to_mat
 import matlab.engine
 
 import time
+import matplotlib.pyplot as plt
 
 
 def simulate(adj_mat, T = 200):
-    junction = base_junction(adj_mat)
-    oracle = None
+	probs = [[0,0.2,0.4,0.3],[0.1,0,0.5,0.2],[0.6,0.2,0,0.3],[0.2,0.6,0.1,0]]
+    junction = base_junction(adj_mat,None,probs)
     tf = np.zeros((4,4))
     tf = tf.tolist()
+    fig, ax = plt.subplots()
+    plt.show(block=False)
     for t in range(T):
         if t<50:
             junction.tick(t,tf)
             continue
         junction.tick(t,tf)
         stats = junction.get_cars_stats(t)
-
+        lights = junction.get_light()
         # if stats==None:
         #     stats=[[0]*4]*4
         for i in range(4):
@@ -24,7 +28,10 @@ def simulate(adj_mat, T = 200):
                 if stats[i][j]==None:
                     stats[i][j]=[0]
         print "stats",stats	
-        tf = eng.yahav_main(stats)
+        tf = eng.roundRobin(probs,t)
+        mat=stats_to_mat(stats)
+		heatmap = ax.pcolor(mat, cmap=plt.cm.YlOrRd)
+        fig.canvas.draw()
         print "t=",t
     return
 
