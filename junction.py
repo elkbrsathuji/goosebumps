@@ -48,8 +48,8 @@ class junction(object):
                 cars_out = self._lanes[i][j].tick(time,True,gen)
                 if cars_out:
                     out_car_lanes.append(j)
-
-                    #self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
+                    for car in cars_out:
+                        self.update_junction_statistics(car.get_time_in_j(time)) # Erez
                 #Setting the correct timers for the traffic lights
                 #TL turned from red to green, reset timer
                 if t_lights[i][j]==0:
@@ -91,6 +91,8 @@ class junction(object):
                 maxTime=timeInJunc
 
         variance=0
+        if amount:
+            meanTime=meanTime/amount
         for timeInJunc in self._timeInJunc:
             variance=(meanTime-timeInJunc)*(meanTime-timeInJunc)/amount
 
