@@ -1,6 +1,4 @@
-
-
-"""
+# in manager:
 class manager:
     def __init__(self):
         self.junctions_dict = {}  # all the junctions: key is the junction id, value is the junction's object itself
@@ -37,3 +35,4 @@ def get_entering_cars_number(junction_id):
         for i in xrange(4):
             result[relevant_lane][i][0] = sum*current_junction.get_prob(relevant_lane,i)
         sum = 0
+"""
