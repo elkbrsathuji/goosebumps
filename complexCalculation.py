@@ -1,5 +1,6 @@
-import junction
 
+
+"""
 class manager:
     def __init__(self):
         self.junctions_dict = {}  # all the junctions: key is the junction id, value is the junction's object itself
@@ -15,7 +16,7 @@ class manager:
 
     def get_junction_by_id(self, junction_id):
         pass
-
+"""
 
 
 # we need to calculate for each lane in each junction, the number of cars that want to reach this lane
