@@ -7,10 +7,10 @@ function [score_green] = ...
 % NumOfCars a 4*4 array of vectors. Each vector is of size #cars in i,j.
 % Each slot in the vector contains a waiting time of car k in index i,j.  
 % sigma (4*4 array), beta are scalars to learn
-Ind = find(Traffic_time == 0); % will use it to zero out green traffic lights
+Ind = find(Traffic_time); % will use it to zero out green traffic lights
 sigma(Ind) = 0;
 % Bonus for being green will decay with time (target to keep it green for
 % a decent amount of time)
-temp_green_order = sigma.*(1./(beta + (Traffic_time.^p)));
-score_green = sum(sum(Option.*temp_green_order));
+temp_green_order = sigma.*(ones(size(Traffic_time))/ (beta + (Traffic_time.^p)));
+score_green = sum(Option.*temp_green_order);
 end
