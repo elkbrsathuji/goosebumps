@@ -31,10 +31,9 @@ def simulate(junctionsMeta, T = 200):
     tf = np.zeros((4,4))
     tf = tf.tolist()
     for t in range(T):
-        if junctions_on_hold:
-        junction_on_hold = update_waiting_list(junctions_on_hold)
         if junctions_on_hold: #update waiting list
-                        
+            junction_on_hold = update_waiting_list(junctions_on_hold)
+
         
         for junction,nei in junctionsMeta:
             
@@ -91,6 +90,31 @@ def create_junctions(adj_mat):
                 generator_adj_mat= udpate_mat(generator_adj_mat,3)
         junctions.append([base_junction(adj_mat,generator_adj_mat), nei])
     return  junctions
+
+
+# we need to calculate for each lane in each junction, the number of cars that want to reach this lane
+def get_entering_cars_number(junction_id):
+    sum = 0
+    current_junction = get_junction_by_id(junction_id)
+    result = l = [[[0, 0], [0, 0], [0, 0], [0, 0]]]*4
+    neighbors = get_neighbors(junction_id)
+    for neighbor in neighbors:
+        neighbor_lights = neighbor.get_lights();  # 4x4 array of pair (boolean light state, time in this state)
+        neighbor_stats = neighbor.get_stats();  # 4x4 array - on each entry there is a list of numbers (that represent time that each car on this lane alredy waits)
+        relevant_lane = get_relevant_lane(junction_id, neighbor.get_id())
+        neighbor_exit_lane = get_neighbor_exit_lane(junction_id, neighbor.get_id())
+        for i in xrange(4):
+            result[relevant_lane][i][1] = get_distance(junction_id, neighbor.get_id())
+            if neighbor_lights[i][neighbor_exit_lane]:
+                sum =+ len(neighbor_stats[i][neighbor_exit_lane])
+        for i in xrange(4):
+            result[relevant_lane][i][0] = sum*current_junction.get_prob(relevant_lane,i)
+        sum = 0
+
+
+
+
+
 
 if __name__ == "__main__":
     st = time.time()
