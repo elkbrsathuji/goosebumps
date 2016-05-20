@@ -1,4 +1,4 @@
-function [score_exp, score_order] = calc_score_cars(lambda, Option, NumOfCars, beta, alfa, p)
+function [score_order] = calc_score_cars(lambda, Option, NumOfCars, alfa, p)
 % lambda is a double array of size 4*4 each lambda_ij is the matching scalar
 % for the cars traffic light that is comming from lane i*2-1 to lane j*2
 % Option is a boolean array of size 4*4 each index - i,j reffering to
@@ -10,15 +10,15 @@ function [score_exp, score_order] = calc_score_cars(lambda, Option, NumOfCars, b
 % sigma, beta and alfa are for future functions
 [rows cols] = find(Option);
 my_weight = 0;
-my_weight_exp = 0;
+% my_weight_exp = 0;
 % performing the calculation: lambda(i)*e^(beta*sum(waiting time of i))
 % for all green lanes in this permutation.
 for i = 1:length(rows)
 %     lane = cell2mat(NumOfCars{rows(i), cols(i)});
     lane = NumOfCars{rows(i), cols(i)};
     if ~isempty(lane)
-        my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
-            exp(beta*sum(lane));
+%         my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
+%             exp(beta*sum(lane));
         my_weight = my_weight + lambda(rows(i), cols(i))*alfa*...
             sum(lane.^p);
     end
@@ -37,5 +37,5 @@ end
 %     end
 % end
 score_order = my_weight;% - other_weight;
-score_exp = my_weight_exp;% - other_weight_exp;
+% score_exp = my_weight_exp;% - other_weight_exp;
 end

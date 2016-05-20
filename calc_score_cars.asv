@@ -14,10 +14,11 @@ my_weight_exp = 0;
 % performing the calculation: lambda(i)*e^(beta*sum(waiting time of i))
 % for all green lanes in this permutation.
 for i = 1:length(rows)
-    lane = cell2mat(NumOfCars{rows(i), cols(i)});
+%     lane = cell2mat(NumOfCars{rows(i), cols(i)});
+    lane = NumOfCars{rows(i), cols(i)};
     if ~isempty(lane)
-        my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
-            exp(beta*sum(lane));
+%         my_weight_exp = my_weight_exp + lambda(rows(i), cols(i))*...
+%             exp(beta*sum(lane));
         my_weight = my_weight + lambda(rows(i), cols(i))*alfa*...
             sum(lane.^p);
     end
@@ -36,5 +37,5 @@ end
 %     end
 % end
 score_order = my_weight;% - other_weight;
-score_exp = my_weight_exp;% - other_weight_exp;
+% score_exp = my_weight_exp;% - other_weight_exp;
 end

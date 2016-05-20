@@ -24,14 +24,14 @@ Traffic_lights_r = ~options*10;
 % are only 13 optimal options.
 % load('Traffic_lights_r')
 % load('Traffic_lights_g')
-for k = 1:size(Traffic_lights_r,3)
+for k = 1:2%size(Traffic_lights_r,3)
     a = cell(4,4);
     for x = 1:4
         for y = 1:4
             if (x == y)
               a(x,y) = mat2cell([0],1,1);
             else
-            a(x,y) = mat2cell(rand(1,length(my_numOfCars{x,y}))*100, 1, length(my_numOfCars{x,y}));
+            a(x,y) = mat2cell(rand(1,length(my_numOfCars{x,y}))*1, 1, length(my_numOfCars{x,y}));
             end
         end
     end
@@ -42,20 +42,18 @@ for k = 1:size(Traffic_lights_r,3)
     % going over all options and choosing the maximal score
     final_score = -40000*ones(1,4);
     for j = 1:size(options,3)
-        [car_poly(j), car_expy(j), r_expy(j), g_poly(j)] =...
+        [car_poly(j), r_expy(j), g_poly(j)] =...
             calc_score(options(:,:,j), a, Traffic_lights_r(:,:,k),...
             Traffic_lights_g(:,:,k));
 
     end
     % when testing I want to see the score for each call
     load('time');
-    figure; plot(1:13, car_expy)
-    title(strcat('exp car score of each option for time: ', int2str(time)))
     figure; plot(1:13, car_poly)
     title(strcat('poly car score of each option for time: ', int2str(time)))
-%     figure; plot(1:13, r_expy)
-%     title(strcat('expy red lights score of each option for time: ', int2str(time)))
-%    figure; plot(1:13, g_poly)
-%     title(strcat('poly green lights score of each option for time: ', int2str(time)))
-%     time = time + 1;
+    figure; plot(1:13, r_expy)
+    title(strcat('expy red lights score of each option for time: ', int2str(time)))
+    figure; plot(1:13, g_poly)
+    title(strcat('poly green lights score of each option for time: ', int2str(time)))
+    time = time + 1;
 end
