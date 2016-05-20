@@ -1,12 +1,17 @@
 # in manager:
-junctions_dict = {}  # all the junctions: key is the junction id, value is the junction's object itself
-neighbors_dict = {}  # key is junction id, value is a list of four-ples: the junction's neighbors' ids, the lane id of the junction in key for where they enter, they lane id of the junction in value from where they exit, their distance
+class manager:
+    def __init__(self):
+        self.junctions_dict = {}  # all the junctions: key is the junction id, value is the junction's object itself
+        self.neighbors_dict = {}  # key is junction id, value is a list of four-ples: the junction's neighbors' ids, the lane id of the junction in key for where they enter, the lane id of the junction in value from where they exit, their distance
+        self.junction_id = 0  # also the counter of 
+
+
 
 # we need to calculate for each lane in each junction, the number of cars that want to reach this lane
 def get_entering_cars_number(junction_id):
     sum = 0
     current_junction = get_junction_by_id(junction_id)
-    result = [[[0, 0], [0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0], [0, 0]], [[0, 0] ,[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0], [0, 0]]]
+    result = l = [[[0, 0], [0, 0], [0, 0], [0, 0]]]*4
     neighbors = get_neighbors(junction_id)
     for neighbor in neighbors:
         neighbor_lights = neighbor.get_lights();  # 4x4 array of pair (boolean light state, time in this state)
