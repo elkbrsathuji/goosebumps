@@ -46,7 +46,8 @@ class base_lane(object):
 			return
 
 	def _pop(self, time):
-		self._cars[0].set_time_out(time)
+		for car in self._cars[0]:
+		    car.set_time_out(time)
 		car = self._cars.pop(0)
 		return car
 

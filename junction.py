@@ -48,7 +48,8 @@ class junction(object):
                 cars_out = self._lanes[i][j].tick(time,True,gen)
                 if cars_out:
                     out_car_lanes.append(j)
-                    self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
+
+                    #self.update_junction_statistics(cars_out.get_time_in_j()) # Erez
                 #Setting the correct timers for the traffic lights
                 #TL turned from red to green, reset timer
                 if t_lights[i][j]==0:

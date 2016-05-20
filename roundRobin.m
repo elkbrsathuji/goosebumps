@@ -25,9 +25,12 @@ function [option] = roundRobin(stats, time)
     %end
     
     probs = zeros(13,1);
-    
+    stats_mat = cell(4,4);
+    for i = 1:4
+        stats_mat(:,i) = stats{1,i};
+    end
     for i=1:13 
-        probs(i) = sum(sum(options(:,:,i).*stats));         
+        probs(i) = sum(sum(options(:,:,i).*cell2mat(stats_mat)));         
     end
     
     probs = probs./sum(probs);
@@ -36,11 +39,11 @@ function [option] = roundRobin(stats, time)
     modTime = mod(time, roundTime);
     
     i = 1;
-    temp = modTime - times(i)
+    temp = modTime - times(i);
     
     while(temp > 0)
        i = i + 1;
-       temp = temp - times(i)    
+       temp = temp - times(i);    
     end
     
     option = options(:,:,i);
